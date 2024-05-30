@@ -781,7 +781,6 @@ static SyscallTableEntry syscall_main_table[] = {
    LINX_ (__NR_sync_file_range, sys_sync_file_range),
    LINX_ (__NR_tee, sys_tee),
    PLAX_ (__NR_vmsplice, sys_vmsplice),
-   LINXY (__NR_move_pages, sys_move_pages),
    LINX_ (__NR_set_robust_list, sys_set_robust_list),
    LINXY (__NR_get_robust_list, sys_get_robust_list),
    LINXY (__NR_epoll_pwait, sys_epoll_pwait),
