@@ -914,8 +914,15 @@ void calculate_SKSS_from_SCSS ( SKSS* dst )
       if (skss_handler != VKI_SIG_IGN && skss_handler != VKI_SIG_DFL)
          skss_flags |= VKI_SA_SIGINFO;
 
+
+#        if !defined(VGP_ppc32_linux) && \
+            !defined(VGP_x86_darwin) && !defined(VGP_amd64_darwin) && \
+            !defined(VGP_mips32_linux) && !defined(VGP_mips64_linux) && \
+            !defined(VGP_nanomips_linux) && !defined(VGO_solaris) && \
+            !defined(VGO_freebsd)
       /* use our own restorer */
       skss_flags |= VKI_SA_RESTORER;
+#        endif
 
       /* Create SKSS entry for this signal. */
       if (sig != VKI_SIGKILL && sig != VKI_SIGSTOP)
@@ -1176,6 +1183,7 @@ static void handle_SCSS_change ( Bool force_update )
             VG_(sigfillset)( &ksa_old.sa_mask );
          }
 #        endif
+         VG_(printf)("OLD: sig %d %x vs %x\n", sig, ksa_old.sa_flags, skss_old.skss_per_sig[sig].skss_flags);
          vg_assert(ksa_old.sa_flags 
                    == skss_old.skss_per_sig[sig].skss_flags);
 #        if !defined(VGP_ppc32_linux) && \
